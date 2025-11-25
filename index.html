@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Route Optimization POC – Inputs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg-gradient: radial-gradient(circle at top, #1f2937 0, #020617 45%, #000 100%);
+      --card-bg: rgba(15, 23, 42, 0.9);
+      --card-border: rgba(148, 163, 184, 0.3);
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.2);
+      --accent-strong: #0ea5e9;
+      --text-primary: #e5e7eb;
+      --text-muted: #9ca3af;
+      --danger: #f97373;
+    }
+
+
+    * {
+      box-sizing: border-box;
+    }
+
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 12px;
+    }
+
+
+    .shell {
+      width: 100%;
+      max-width: 900px;
+    }
+
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+
+    .logo-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+
+    .logo-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent);
+    }
+
+
+    h1 {
+      margin: 14px 0 4px;
+      font-size: 26px;
+      letter-spacing: -0.02em;
+    }
+
+
+    .subtitle {
+      margin: 0;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+
+    .card {
+      position: relative;
+      border-radius: 18px;
+      padding: 18px 20px 20px;
+      border: 1px solid var(--card-border);
+      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.06), transparent 55%),
+                  radial-gradient(circle at bottom right, rgba(129, 140, 248, 0.06), transparent 60%),
+                  var(--card-bg);
+      box-shadow:
+        0 18px 45px rgba(15, 23, 42, 0.8),
+        0 0 0 1px rgba(15, 23, 42, 0.9);
+      backdrop-filter: blur(20px);
+    }
+
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      gap: 8px;
+    }
+
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+
+    .steps {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+    }
+
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 16px;
+    }
+
+
+    @media (max-width: 800px) {
+      .grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+
+    .section {
+      border-radius: 14px;
+      padding: 12px 12px 10px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.95));
+    }
+
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      gap: 6px;
+    }
+
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+
+    .section-subtitle {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+
+    .section-title-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 6px var(--accent);
+    }
+
+
+    .field {
+      margin-bottom: 10px;
+    }
+
+
+    .field label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 3px;
+      font-size: 12px;
+    }
+
+
+    .field small {
+      display: block;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+
+
+    .field-row {
+      display: flex;
+      gap: 8px;
+    }
+
+
+    .field-row > .field {
+      flex: 1;
+      margin-bottom: 0;
+    }
+
+
+    input[type="text"],
+    input[type="date"],
+    input[type="number"],
+    textarea {
+      width: 100%;
+      padding: 7px 9px;
+      border-radius: 8px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.8);
+      color: var(--text-primary);
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+
+    input[type="text"]:focus,
+    input[type="date"]:focus,
+    input[type="number"]:focus,
+    textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.4);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+
+    textarea {
+      resize: vertical;
+      min-height: 72px;
+    }
+
+
+    input[type="file"] {
+      width: 100%;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+
+    .file-hint {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 14px;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+
+    button {
+      padding: 9px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 999px;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-strong), #6366f1);
+      color: #0b1120;
+      box-shadow:
+        0 10px 25px rgba(56, 189, 248, 0.35),
+        0 0 0 1px rgba(15, 23, 42, 0.9);
+    }
+
+
+    .btn-primary:hover {
+      filter: brightness(1.05);
+    }
+
+
+    .btn-primary:active {
+      transform: translateY(1px);
+      box-shadow:
+        0 5px 16px rgba(56, 189, 248, 0.4),
+        0 0 0 1px rgba(15, 23, 42, 0.9);
+    }
+
+
+    .pill {
+      border-radius: 999px;
+      padding: 3px 8px;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="header">
+      <div class="logo-pill">
+        <span class="logo-dot"></span>
+        <span>Shipsy · Route Optimizer POC</span>
+      </div>
+      <h1>New POC Scenario</h1>
+      <p class="subtitle">Upload customer data once · standardize · optimize later.</p>
+    </div>
+
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <span>Scenario &amp; Inputs</span>
+        </div>
+        <div class="steps">Step 1 · Capture data</div>
+      </div>
+
+
+      <!-- Form posts directly to your n8n production webhook -->
+      <form
+        id="pocForm"
+        action="https://wbdemo.shipsy.io/webhook-test/poc-test"
+        method="POST"
+        enctype="multipart/form-data"
+      >
+        <div class="grid">
+          <!-- Left: Scenario details -->
+          <div class="section">
+            <div class="section-header">
+              <div class="section-title">
+                <span class="section-title-dot"></span>
+                <span>Scenario details</span>
+              </div>
+              <span class="section-subtitle">Who / when / where</span>
+            </div>
+
+
+            <div class="field">
+              <label for="scenario_name">Scenario name *</label>
+              <input
+                id="scenario_name"
+                name="scenario_name"
+                type="text"
+                required
+                placeholder="e.g. LUX_POST_Jun15_Baseline"
+              />
+              <small>Short label so you can recognize this POC later.</small>
+            </div>
+
+
+            <div class="field">
+              <label for="customer_name">Customer name *</label>
+              <input
+                id="customer_name"
+                name="customer_name"
+                type="text"
+                required
+                placeholder="e.g. LUX POST"
+              />
+            </div>
+
+
+            <div class="field-row" style="margin-bottom: 8px;">
+              <div class="field">
+                <label for="date_of_operations">Date of operations *</label>
+                <input
+                  id="date_of_operations"
+                  name="date_of_operations"
+                  type="date"
+                  required
+                />
+              </div>
+            </div>
+
+
+            <div class="field">
+              <label>Hub location (lat / lng) *</label>
+              <div class="field-row">
+                <div class="field">
+                  <input
+                    name="hub_lat"
+                    type="number"
+                    step="any"
+                    required
+                    placeholder="Latitude"
+                  />
+                </div>
+                <div class="field">
+                  <input
+                    name="hub_lng"
+                    type="number"
+                    step="any"
+                    required
+                    placeholder="Longitude"
+                  />
+                </div>
+              </div>
+              <small>Use the main hub for this scenario (e.g. 28.6139, 77.2090).</small>
+            </div>
+
+
+            <div class="field">
+              <label for="business_objective">Business objective (optional)</label>
+              <textarea
+                id="business_objective"
+                name="business_objective"
+                rows="3"
+                placeholder="e.g. Minimize vehicles while keeping trips under 8 hours and respecting customer time slots."
+              ></textarea>
+              <small>This will later guide routing configs &amp; objective.</small>
+            </div>
+          </div>
+
+
+          <!-- Right: File uploads -->
+          <div class="section">
+            <div class="section-header">
+              <div class="section-title">
+                <span class="section-title-dot"></span>
+                <span>Customer files</span>
+              </div>
+              <span class="section-subtitle">Raw input · any format</span>
+            </div>
+
+
+            <div class="field">
+              <label for="vehicle_file">Vehicle file *</label>
+              <input
+                id="vehicle_file"
+                name="vehicle_file"
+                type="file"
+                accept=".xlsx,.xls,.csv"
+                required
+              />
+              <div class="file-hint">
+                Any customer vehicle format is okay (Excel/CSV). We’ll map it next.
+              </div>
+            </div>
+
+
+            <div class="field">
+              <label for="consignment_file">Consignment file *</label>
+              <input
+                id="consignment_file"
+                name="consignment_file"
+                type="file"
+                accept=".xlsx,.xls,.csv"
+                required
+              />
+              <div class="file-hint">
+                Customer orders/consignments for the POC day (Excel/CSV).
+              </div>
+            </div>
+
+
+            <div style="margin-top: 14px;">
+              <div class="pill">
+                <strong>Next:</strong> we’ll infer column mappings and ask you to confirm them.
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="footer">
+          <span>Step 1 of 3 · Capture &amp; store scenario inputs.</span>
+          <button type="submit" class="btn-primary">
+            <span>Upload &amp; create scenario</span>
+            <span>↗</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
